@@ -1,0 +1,7 @@
+name: EventBoard
+version: '${project.version}'
+main: de.nudelsuppe.eventboard.Main
+api-version: 1.18
+commands:
+  leaderboard:
+    aliases: [lb,leader,board]
