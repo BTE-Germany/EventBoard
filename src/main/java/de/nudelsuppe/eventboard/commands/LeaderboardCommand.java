@@ -43,7 +43,6 @@ public class LeaderboardCommand implements CommandExecutor, TabCompleter {
                 return true;
             }
 
-
             if(args[0].equalsIgnoreCase("data")) {
                 Gson g = new Gson();
                 player.sendMessage(Main.PREFIX+g.toJson(DataSource.data));
@@ -57,6 +56,31 @@ public class LeaderboardCommand implements CommandExecutor, TabCompleter {
                 }
                 return true;
             }
+            if(args[0].equalsIgnoreCase("toggleall")) {
+                for(Player p: Bukkit.getOnlinePlayers())
+                    BoardManager.toggleBoard(p);
+                player.sendMessage(Main.PREFIX+"Leaderboard visibility toggled for everyone.");
+                return true;
+            }
+            if(args[0].equalsIgnoreCase("onall")) {
+                for(Player p: Bukkit.getOnlinePlayers()){
+                    BoardManager.removeBoard(p);
+                    BoardManager.addBoard(p);
+                }
+                player.sendMessage(Main.PREFIX+"Leaderboard visibility set to on for everyone.");
+                Main.getInstance().getConfig().set("enabled",true);
+                Main.getInstance().saveConfig();
+                return true;
+            }
+            if(args[0].equalsIgnoreCase("offall")) {
+                for(Player p: Bukkit.getOnlinePlayers()) {
+                    BoardManager.removeBoard(p);
+                }
+                Main.getInstance().getConfig().set("enabled",false);
+                Main.getInstance().saveConfig();
+                player.sendMessage(Main.PREFIX+"Leaderboard visibility set to off for everyone.");
+                return true;
+            }
         }
         sender.sendMessage(ChatColor.RED+"Only Players can execute this command.");
         return true;
@@ -66,7 +90,15 @@ public class LeaderboardCommand implements CommandExecutor, TabCompleter {
         final List<String> completions = new ArrayList<>();
         if(args.length>1) return completions;
 
-        StringUtil.copyPartialMatches(args[0], Arrays.asList("toggle", "reload", "data", "boards"), completions);
+        List<String> parts;
+
+        if(sender.hasPermission("event.leaderboard.admin")) {
+            parts = Arrays.asList("toggle", "reload", "data", "boards", "toggleall","onall","offall");
+        } else {
+            parts= Collections.singletonList("toggle");
+        }
+
+        StringUtil.copyPartialMatches(args[0], parts, completions);
         Collections.sort(completions);
         return completions;
     }

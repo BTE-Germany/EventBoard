@@ -20,8 +20,8 @@ public class LeaderboardBuilds {
     private String message;
     private String judge_msg;
     private String location;
-    private int A;
-    private int B;
+    private double A;
+    private double B;
     private boolean base_points;
     private String[] images;
     private String builder_id;
@@ -62,19 +62,19 @@ public class LeaderboardBuilds {
         this.location = location;
     }
 
-    public int getA() {
+    public double getA() {
         return A;
     }
 
-    public void setA(int a) {
+    public void setA(double a) {
         A = a;
     }
 
-    public int getB() {
+    public double getB() {
         return B;
     }
 
-    public void setB(int b) {
+    public void setB(double b) {
         B = b;
     }
 

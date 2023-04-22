@@ -1,0 +1,6 @@
+# No ending /
+apiUrl: https://localhost:8080
+# Should the Leaderboard be displayed on join?
+enabled: true
+# Delay to refetch the data (in seconds)
+updateDelay: 30

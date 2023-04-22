@@ -1,26 +1,27 @@
 package de.nudelsuppe.eventboard.data;
 
 import com.google.gson.Gson;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import de.nudelsuppe.eventboard.Main;
+import jdk.internal.net.http.hpack.HPACK;
+import org.bukkit.Bukkit;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Scanner;
+import java.util.logging.Level;
 
 public class DataSource {
 
     public static LeaderboardData data;
 
-    public static LeaderboardData getData() {
+    public static void getData() {
         try {
-            System.out.println("Loading Data...");
-            URL url = new URL("http://localhost:8000/leaderboard");//your url i.e fetch data from .
+            Bukkit.getLogger().log(Level.INFO,"Loading Data...");
+            URL url = new URL(Main.getInstance().getConfig().getString("apiUrl")+"/leaderboard");//your url i.e fetch data from .
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-            conn.setRequestProperty("Accept", "application/json");
+            //conn.setRequestProperty("Accept", "application/json");
             if (conn.getResponseCode() != 200) {
                 throw new RuntimeException("Failed : HTTP Error code : "
                         + conn.getResponseCode());
@@ -31,15 +32,15 @@ public class DataSource {
             while ((output = br.readLine()) != null) {
                 Gson g = new Gson();
                 LeaderboardData s = g.fromJson(output, LeaderboardData.class);
-                System.out.println("Data loaded.");
+                Bukkit.getLogger().log(Level.INFO,"Data loaded");
                 data = s;
-                return s;
+                return;
             }
             conn.disconnect();
 
         } catch (Exception e) {
-            System.out.println("Exception in NetClientGet:- " + e);
+            Bukkit.getLogger().log(Level.SEVERE,"Exception: "+e);
+            Main.getInstance().getPluginLoader().disablePlugin(Main.getInstance());
         }
-        return null;
     }
 }

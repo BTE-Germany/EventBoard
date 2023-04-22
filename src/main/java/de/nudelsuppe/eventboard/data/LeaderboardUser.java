@@ -4,7 +4,7 @@ public class LeaderboardUser {
     private String id;
     private String minecraft_id;
     private boolean banned;
-    private int points;
+    private double points;
 
     public LeaderboardUser() {
     }
@@ -33,11 +33,11 @@ public class LeaderboardUser {
         this.banned = banned;
     }
 
-    public int getPoints() {
+    public double getPoints() {
         return points;
     }
 
-    public void setPoints(int points) {
+    public void setPoints(double points) {
         this.points = points;
     }
 }

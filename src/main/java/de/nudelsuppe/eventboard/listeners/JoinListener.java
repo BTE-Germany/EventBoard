@@ -8,7 +8,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 public class JoinListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        System.out.println(event.getPlayer().getUniqueId());
-        BoardManager.addBoard(event.getPlayer());
+        BoardManager.initializeBoard(event.getPlayer());
     }
 }
