@@ -6,6 +6,7 @@ import de.nudelsuppe.eventboard.data.LeaderboardUser;
 import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -61,11 +62,11 @@ public class BoardManager {
         ArrayList<String> res = new ArrayList<>();
         for(int i=0; i < Math.min(DataSource.data.getUsers().length, 4);i++) {
             LeaderboardUser user = DataSource.data.getUsers()[i];
-            Player p = Bukkit.getPlayer(user.getMinecraft_id());
-            if(user.getPoints()<=0|| user.getMinecraft_id().equals("") || Objects.isNull(p)) continue;
+            OfflinePlayer p = Bukkit.getOfflinePlayer(user.getMinecraft_id());
+            if(user.getPoints()<=0|| user.getMinecraft_id().equals("")) continue;
             res.add(ChatColor.YELLOW+""+(i+1)+". "+ChatColor.GRAY+p.getName()+ChatColor.DARK_GRAY+" ("+ChatColor.YELLOW+Math.round(user.getPoints())+ChatColor.DARK_GRAY+")");
         }
-        if(DataSource.data.getUsers().length>10) {
+        if(Arrays.stream(DataSource.data.getUsers()).filter(user -> (user.getPoints()>0&& !user.getMinecraft_id().equals(""))).toArray().length>10) {
             res.add(ChatColor.GRAY+"+ "+(DataSource.data.getUsers().length-10)+" weitere");
         }
         LeaderboardUser user = DataSource.data.getUser(board.getPlayer().getUniqueId().toString());
