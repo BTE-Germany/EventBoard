@@ -60,20 +60,25 @@ public class BoardManager {
     }
     private static void updateBoard(FastBoard board) {
         ArrayList<String> res = new ArrayList<>();
-        for(int i=0; i < Math.min(DataSource.data.getUsers().length, 4);i++) {
+        Player player = board.getPlayer();
+        LeaderboardUser playerUser = DataSource.data.getUser(player.getName());
+        boolean isPlayerInTop = false;
+        for(int i=0; i < Math.min(DataSource.data.getUsers().length, 10);i++) {
             LeaderboardUser user = DataSource.data.getUsers()[i];
             OfflinePlayer p = Bukkit.getOfflinePlayer(user.getMinecraft_id());
             if(user.getPoints()<=0|| user.getMinecraft_id().equals("")) continue;
-            res.add(ChatColor.YELLOW+""+(i+1)+". "+ChatColor.GRAY+p.getName()+ChatColor.DARK_GRAY+" ("+ChatColor.YELLOW+Math.round(user.getPoints())+ChatColor.DARK_GRAY+")");
+
+            if(user.getMinecraft_id().equalsIgnoreCase(player.getName()))
+                isPlayerInTop = true;
+            res.add(ChatColor.YELLOW+""+(i+1)+". "+ChatColor.GRAY+p.getName()+ChatColor.DARK_GRAY+" ("+ChatColor.YELLOW+user.getPoints()+ChatColor.DARK_GRAY+")");
+        }
+        System.out.println(isPlayerInTop + player.getName());
+        if(!isPlayerInTop && playerUser!=null) {
+            res.add("");
+            res.add(ChatColor.YELLOW+""+(Arrays.asList(DataSource.data.getUsers()).indexOf(playerUser)+1)+". "+ChatColor.GRAY+player.getName()+ChatColor.DARK_GRAY+" ("+ChatColor.YELLOW+playerUser.getPoints()+ChatColor.DARK_GRAY+")");
         }
         if(Arrays.stream(DataSource.data.getUsers()).filter(user -> (user.getPoints()>0&& !user.getMinecraft_id().equals(""))).toArray().length>10) {
-            res.add(ChatColor.GRAY+"+ "+(DataSource.data.getUsers().length-10)+" weitere");
-        }
-        LeaderboardUser user = DataSource.data.getUser(board.getPlayer().getUniqueId().toString());
-        if(user!=null) {
-            res.add("");
-            res.add(ChatColor.YELLOW+"Deine Punkte: "+ChatColor.GRAY+Math.round(user.getPoints()));
-            res.add(ChatColor.YELLOW+"Deine Platzierung: "+ChatColor.GRAY+(Arrays.asList(DataSource.data.getUsers()).indexOf(user)+1));
+            res.add(ChatColor.GRAY+"+ "+(DataSource.data.getUsers().length-(isPlayerInTop?10:11))+" weitere");
         }
         res.add("");
         res.add(ChatColor.YELLOW+"Insg. Gebäude: "+ChatColor.GRAY+DataSource.data.getBuilds().length);
