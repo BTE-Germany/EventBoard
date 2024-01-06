@@ -17,7 +17,7 @@ public class DataSource {
 
     public static void getData() {
         try {
-            Bukkit.getLogger().log(Level.INFO,"Loading Data...");
+            //Bukkit.getLogger().log(Level.INFO,"[Event] Loading Data...");
             URL url = new URL(Main.getInstance().getConfig().getString("apiUrl")+"/leaderboard");//your url i.e fetch data from .
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -32,14 +32,14 @@ public class DataSource {
             while ((output = br.readLine()) != null) {
                 Gson g = new Gson();
                 LeaderboardData s = g.fromJson(output, LeaderboardData.class);
-                Bukkit.getLogger().log(Level.INFO,"Data loaded");
+                //Bukkit.getLogger().log(Level.INFO,"[Event] Data loaded");
                 data = s;
                 return;
             }
             conn.disconnect();
 
         } catch (Exception e) {
-            Bukkit.getLogger().log(Level.SEVERE,"Exception: "+e);
+            Bukkit.getLogger().log(Level.SEVERE,"[Event] Exception: "+e);
             Main.getInstance().getPluginLoader().disablePlugin(Main.getInstance());
         }
     }
