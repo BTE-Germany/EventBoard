@@ -2,7 +2,6 @@ package de.nudelsuppe.eventboard.data;
 
 import com.google.gson.Gson;
 import de.nudelsuppe.eventboard.Main;
-import jdk.internal.net.http.hpack.HPACK;
 import org.bukkit.Bukkit;
 
 import java.io.BufferedReader;
@@ -18,7 +17,7 @@ public class DataSource {
     public static void getData() {
         try {
             //Bukkit.getLogger().log(Level.INFO,"[Event] Loading Data...");
-            URL url = new URL(Main.getInstance().getConfig().getString("apiUrl")+"/leaderboard");//your url i.e fetch data from .
+            URL url = java.net.URI.create(Main.getInstance().getConfig().getString("apiUrl")+"/leaderboard").toURL();
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             //conn.setRequestProperty("Accept", "application/json");
@@ -40,7 +39,7 @@ public class DataSource {
 
         } catch (Exception e) {
             Bukkit.getLogger().log(Level.SEVERE,"[Event] Exception: "+e);
-            Main.getInstance().getPluginLoader().disablePlugin(Main.getInstance());
+            Bukkit.getPluginManager().disablePlugin(Main.getInstance());
         }
     }
 }

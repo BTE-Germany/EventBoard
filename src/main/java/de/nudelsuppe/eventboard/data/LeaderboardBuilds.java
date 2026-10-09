@@ -7,7 +7,7 @@ public class LeaderboardBuilds {
 "location": "Mischa stinks",
 "A": 7,
 "B": 6,
-"base_points": true,
+"base_points": 1,
 "images": [
 "https://cdn.discordapp.com/attachments/1046797691180560434/1048534832591949824/q7tgoq6bxe391.webp"
 ],
@@ -22,7 +22,7 @@ public class LeaderboardBuilds {
     private String location;
     private double A;
     private double B;
-    private boolean base_points;
+    private int base_points;
     private String[] images;
     private String builder_id;
     private String[] judges;
@@ -78,11 +78,11 @@ public class LeaderboardBuilds {
         B = b;
     }
 
-    public boolean isBase_points() {
+    public int getBase_points() {
         return base_points;
     }
 
-    public void setBase_points(boolean base_points) {
+    public void setBase_points(int base_points) {
         this.base_points = base_points;
     }
 

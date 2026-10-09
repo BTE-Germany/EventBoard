@@ -1,11 +1,11 @@
 package de.nudelsuppe.eventboard.board;
 
 import de.nudelsuppe.eventboard.Main;
+import de.nudelsuppe.eventboard.LegacyFormat;
 import de.nudelsuppe.eventboard.data.DataSource;
 import de.nudelsuppe.eventboard.data.LeaderboardUser;
 import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -26,7 +26,7 @@ public class BoardManager {
 
     public static void addBoard(Player player) {
         FastBoard board = new FastBoard(player);
-        board.updateTitle(ChatColor.GOLD+""+ChatColor.BOLD+"Event");
+        board.updateTitle(LegacyFormat.GOLD+LegacyFormat.BOLD+"Event");
         boards.put(player.getUniqueId(), board);
         updateBoard(board);
     }
@@ -70,32 +70,32 @@ public class BoardManager {
 
             if(user.getMinecraft_id().equalsIgnoreCase(player.getName())) {
                 isPlayerInTop = true;
-                res.add(getPlacePrefix(i+1) + ChatColor.AQUA + p.getName() + ChatColor.DARK_GRAY + " (" + ChatColor.AQUA + user.getPoints() + ChatColor.DARK_GRAY + ")");
+                res.add(getPlacePrefix(i+1) + LegacyFormat.AQUA + p.getName() + LegacyFormat.DARK_GRAY + " (" + LegacyFormat.AQUA + user.getPoints() + LegacyFormat.DARK_GRAY + ")");
             } else {
-                res.add(getPlacePrefix(i+1) + ChatColor.WHITE + p.getName() + ChatColor.DARK_GRAY + " (" + ChatColor.AQUA + user.getPoints() + ChatColor.DARK_GRAY + ")");
+                res.add(getPlacePrefix(i+1) + LegacyFormat.WHITE + p.getName() + LegacyFormat.DARK_GRAY + " (" + LegacyFormat.AQUA + user.getPoints() + LegacyFormat.DARK_GRAY + ")");
             }
         }
         if(!isPlayerInTop && playerUser!=null) {
             res.add("");
-            res.add(getPlacePrefix(Arrays.asList(DataSource.data.getUsers()).indexOf(playerUser)+1)+ChatColor.AQUA+player.getName()+ChatColor.DARK_GRAY+" ("+ChatColor.AQUA+playerUser.getPoints()+ChatColor.DARK_GRAY+")");
+            res.add(getPlacePrefix(Arrays.asList(DataSource.data.getUsers()).indexOf(playerUser)+1)+LegacyFormat.AQUA+player.getName()+LegacyFormat.DARK_GRAY+" ("+LegacyFormat.AQUA+playerUser.getPoints()+LegacyFormat.DARK_GRAY+")");
         }
 
         if(Arrays.stream(DataSource.data.getUsers()).filter(user -> (user.getPoints()>0&& !user.getMinecraft_id().equals(""))).toArray().length>10) {
-            res.add(ChatColor.GRAY+"+ "+(DataSource.data.getUsers().length-(isPlayerInTop?10:11))+" weitere");
+            res.add(LegacyFormat.GRAY+"+ "+(DataSource.data.getUsers().length-(isPlayerInTop?10:11))+" weitere");
         }
         res.add("");
-        res.add(ChatColor.YELLOW+"Insg. Gebäude: "+ChatColor.GRAY+DataSource.data.getBuilds().length);
-        res.add(ChatColor.YELLOW+"Insg. Punkte: "+ChatColor.GRAY+Math.round(DataSource.data.getPoints()));
+        res.add(LegacyFormat.YELLOW+"Insg. Gebäude: "+LegacyFormat.GRAY+DataSource.data.getBuilds().length);
+        res.add(LegacyFormat.YELLOW+"Insg. Punkte: "+LegacyFormat.GRAY+Math.round(DataSource.data.getPoints()));
 
         board.updateLines(res);
     }
 
     private static String getPlacePrefix(int i) {
         switch(i) {
-            case 1: return ChatColor.YELLOW+"ր "+ChatColor.RESET;
-            case 2: return ChatColor.GRAY +"փ "+ChatColor.RESET;
-            case 3: return ChatColor.GOLD +"ք "+ChatColor.RESET;
-            default: return ChatColor.GRAY+""+(i) + ". "+ChatColor.RESET;
+            case 1: return LegacyFormat.YELLOW+"ր "+LegacyFormat.RESET;
+            case 2: return LegacyFormat.GRAY +"փ "+LegacyFormat.RESET;
+            case 3: return LegacyFormat.GOLD +"ք "+LegacyFormat.RESET;
+            default: return LegacyFormat.GRAY+""+(i) + ". "+LegacyFormat.RESET;
         }
     }
 }

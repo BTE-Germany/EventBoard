@@ -2,10 +2,10 @@ package de.nudelsuppe.eventboard.commands;
 
 import com.google.gson.Gson;
 import de.nudelsuppe.eventboard.Main;
+import de.nudelsuppe.eventboard.LegacyFormat;
 import de.nudelsuppe.eventboard.board.BoardManager;
 import de.nudelsuppe.eventboard.data.DataSource;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -52,7 +52,7 @@ public class LeaderboardCommand implements CommandExecutor, TabCompleter {
                 player.sendMessage(Main.PREFIX+"List of players currently seeing the board:");
                 for(UUID u:BoardManager.getBoards().keySet()) {
                     Player p = Bukkit.getPlayer(u);
-                    player.sendMessage(ChatColor.GRAY+"- "+p.getName());
+                    player.sendMessage(LegacyFormat.GRAY+"- "+p.getName());
                 }
                 return true;
             }
@@ -82,7 +82,7 @@ public class LeaderboardCommand implements CommandExecutor, TabCompleter {
                 return true;
             }
         }
-        sender.sendMessage(ChatColor.RED+"Only Players can execute this command.");
+        sender.sendMessage(LegacyFormat.RED+"Only Players can execute this command.");
         return true;
     }
 
