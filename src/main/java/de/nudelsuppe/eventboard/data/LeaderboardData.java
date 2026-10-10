@@ -8,6 +8,13 @@ public class LeaderboardData {
     public LeaderboardData() {
     }
 
+    public static LeaderboardData empty() {
+        LeaderboardData data = new LeaderboardData();
+        data.setUsers(new LeaderboardUser[0]);
+        data.setBuilds(new LeaderboardBuilds[0]);
+        return data;
+    }
+
     public LeaderboardUser[] getUsers() {
         return users;
     }
@@ -17,8 +24,9 @@ public class LeaderboardData {
     }
 
     public LeaderboardUser getUser(String minecraft_id) {
+        if (users == null) return null;
         for(LeaderboardUser user: users) {
-            if(user.getMinecraft_id().equals(minecraft_id)) return user;
+            if(user != null && minecraft_id.equalsIgnoreCase(user.getMinecraft_id())) return user;
         }
         return null;
     }
